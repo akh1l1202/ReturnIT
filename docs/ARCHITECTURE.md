@@ -38,20 +38,20 @@ graph TD
 ```
 
 ### 1. Model Layer
-* [LostFoundItem.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Models/LostFoundItem.swift): Defines the properties of an item, custom `Codable` decoding for field mapping, and identity fields.
-* [ItemStatus.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Models/ItemStatus.swift): Type-safe enum detailing the lifecycle of an item (.lost, .found, .resolved).
-* [User.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Models/User.swift): Data structure mapping user information.
-* [DataLoader.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Services/DataLoader.swift): Core service singleton managing local file input/output and memory state caches.
+* [LostFoundItem.swift](../ReturnIT/Models/LostFoundItem.swift): Defines the properties of an item, custom `Codable` decoding for field mapping, and identity fields.
+* [ItemStatus.swift](../ReturnIT/Models/ItemStatus.swift): Type-safe enum detailing the lifecycle of an item (.lost, .found, .resolved).
+* [User.swift](../ReturnIT/Models/User.swift): Data structure mapping user information.
+* [DataLoader.swift](../ReturnIT/Services/DataLoader.swift): Core service singleton managing local file input/output and memory state caches.
 
 ### 2. View Layer
-* [Main.storyboard](file:///d:/GitHub/ReturnIT/ReturnIT/Storyboards/Main.storyboard): Contains the view definitions, UI layouts, and outlet connections.
-* [ItemCardCell.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Views/ItemCardCell.swift): Custom card view that displays item summaries programmatically using Auto Layout.
+* [Main.storyboard](../ReturnIT/Storyboards/Main.storyboard): Contains the view definitions, UI layouts, and outlet connections.
+* [ItemCardCell.swift](../ReturnIT/Views/ItemCardCell.swift): Custom card view that displays item summaries programmatically using Auto Layout.
 
 ### 3. Controller Layer
-* [LoginViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/LoginViewController.swift) & [RegisterViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/RegisterViewController.swift): Manage user sessions and entry flow.
-* [HomeFeedViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/HomeFeedViewController.swift): Manages feed layout, delegates, table view datasources, and filter bar switches.
-* [PostItemViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/PostItemViewController.swift): Handles input forms, segment selections, category selection sheets, and image pickers.
-* [ItemDetailViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/ItemDetailViewController.swift): Renders detail pages and processes state modifications.
+* [LoginViewController.swift](../ReturnIT/Controllers/LoginViewController.swift) & [RegisterViewController.swift](../ReturnIT/Controllers/RegisterViewController.swift): Manage user sessions and entry flow.
+* [HomeFeedViewController.swift](../ReturnIT/Controllers/HomeFeedViewController.swift): Manages feed layout, delegates, table view datasources, and filter bar switches.
+* [PostItemViewController.swift](../ReturnIT/Controllers/PostItemViewController.swift): Handles input forms, segment selections, category selection sheets, and image pickers.
+* [ItemDetailViewController.swift](../ReturnIT/Controllers/ItemDetailViewController.swift): Renders detail pages and processes state modifications.
 
 ---
 

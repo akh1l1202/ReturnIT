@@ -7,12 +7,12 @@ ReturnIT is a high-fidelity native iOS application built using **Swift 5.9** and
 ## 📖 Table of Contents
 1. [Problem Statement](#-problem-statement)
 2. [Visual Walkthrough & Screens](#-visual-walkthrough--screens)
-3. [Key Architecture & Data Flow](#-key-architecture--data-flow)
+3. [Key Architecture & Data Flow](#️-key-architecture--data-flow)
 4. [Key Swift & UIKit Concepts Demonstrated](#-key-swift--uikit-concepts-demonstrated)
 5. [Reorganized Repository Structure](#-reorganized-repository-structure)
 6. [Local Sandbox Data Engine](#-local-sandbox-data-engine)
-7. [How to Run Locally](#-how-to-run-locally)
-8. [Project Limitations](#-project-limitations)
+7. [How to Run Locally](#️-how-to-run-locally)
+8. [Project Limitations](#️-project-limitations)
 9. [Detailed Project Documentation](#-detailed-project-documentation)
 10. [License](#-license)
 
@@ -79,8 +79,8 @@ To prevent false claims or single-sided closures, ReturnIT implements a **double
 ## 🏛️ Key Architecture & Data Flow
 
 ReturnIT follows a strict **Model-View-Controller (MVC)** architectural design:
-1. **Model**: Pure data objects ([LostFoundItem.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Models/LostFoundItem.swift), [User.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Models/User.swift)) and the persistence helper ([DataLoader.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Services/DataLoader.swift)).
-2. **View**: UI templates configured inside [Main.storyboard](file:///d:/GitHub/ReturnIT/ReturnIT/Storyboards/Main.storyboard) and programmatically styled cells ([ItemCardCell.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Views/ItemCardCell.swift)).
+1. **Model**: Pure data objects ([LostFoundItem.swift](ReturnIT/Models/LostFoundItem.swift), [User.swift](ReturnIT/Models/User.swift)) and the persistence helper ([DataLoader.swift](ReturnIT/Services/DataLoader.swift)).
+2. **View**: UI templates configured inside [Main.storyboard](ReturnIT/Storyboards/Main.storyboard) and programmatically styled cells ([ItemCardCell.swift](ReturnIT/Views/ItemCardCell.swift)).
 3. **Controller**: Coordinate UI updates, handle table view delegates, and process form submissions.
 
 ```
@@ -95,10 +95,10 @@ ReturnIT follows a strict **Model-View-Controller (MVC)** architectural design:
 ## 🎓 Key Swift & UIKit Concepts Demonstrated
 
 This codebase showcases clean native iOS development standards:
-* **Custom TableView Cells**: [ItemCardCell.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Views/ItemCardCell.swift) implements Auto Layout anchors programmatically to render rounded corners, shadow elevations, and image constraints without Interface Builder clutter.
-* **Safe Decodable Mapping**: Custom decoding inside [LostFoundItem.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Models/LostFoundItem.swift) automatically translates legacy JSON keys (like `title`) into the updated properties (`name`) and maps raw string states to a type-safe `ItemStatus` enum.
+* **Custom TableView Cells**: [ItemCardCell.swift](ReturnIT/Views/ItemCardCell.swift) implements Auto Layout anchors programmatically to render rounded corners, shadow elevations, and image constraints without Interface Builder clutter.
+* **Safe Decodable Mapping**: Custom decoding inside [LostFoundItem.swift](ReturnIT/Models/LostFoundItem.swift) automatically translates legacy JSON keys (like `title`) into the updated properties (`name`) and maps raw string states to a type-safe `ItemStatus` enum.
 * **Outlets Audit & Fixes**: Removed fragile, hacky view-tree traversals (`findUIElements`) in form submissions and details controllers. All UI bindings are handled using compiler-checked `@IBOutlet` properties.
-* **Programmatic Routing**: Selecting a row in the Home Feed triggers [HomeFeedViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/HomeFeedViewController.swift#L92-L105) to programmatically instantiate and push the detail view controller rather than relying on storyboard segues.
+* **Programmatic Routing**: Selecting a row in the Home Feed triggers [HomeFeedViewController.swift](ReturnIT/Controllers/HomeFeedViewController.swift#L92-L105) to programmatically instantiate and push the detail view controller rather than relying on storyboard segues.
 * **Programmatic CALayers**: Renders dashed photo upload boxes via `CAShapeLayer` and `lineDashPattern`, and pill badges using layer corner clips.
 
 ---
@@ -107,20 +107,20 @@ This codebase showcases clean native iOS development standards:
 
 The files have been structured in a clean, industry-standard layout:
 
-* **[Models/](file:///d:/GitHub/ReturnIT/ReturnIT/Models)**: [LostFoundItem.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Models/LostFoundItem.swift), [ItemStatus.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Models/ItemStatus.swift), [User.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Models/User.swift)
-* **[Controllers/](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers)**: [LoginViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/LoginViewController.swift), [RegisterViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/RegisterViewController.swift), [HomeFeedViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/HomeFeedViewController.swift), [PostItemViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/PostItemViewController.swift), [ItemDetailViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/ItemDetailViewController.swift), [MyPostsViewController.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Controllers/MyPostsViewController.swift)
-* **[Views/](file:///d:/GitHub/ReturnIT/ReturnIT/Views)**: [ItemCardCell.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Views/ItemCardCell.swift)
-* **[Services/](file:///d:/GitHub/ReturnIT/ReturnIT/Services)**: [DataLoader.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Services/DataLoader.swift)
-* **[Resources/](file:///d:/GitHub/ReturnIT/ReturnIT/Resources)**: [items.json](file:///d:/GitHub/ReturnIT/ReturnIT/Resources/items.json)
-* **[Storyboards/](file:///d:/GitHub/ReturnIT/ReturnIT/Storyboards)**: [Main.storyboard](file:///d:/GitHub/ReturnIT/ReturnIT/Storyboards/Main.storyboard), [LaunchScreen.storyboard](file:///d:/GitHub/ReturnIT/ReturnIT/Storyboards/LaunchScreen.storyboard)
+* **[Models/](ReturnIT/Models)**: [LostFoundItem.swift](ReturnIT/Models/LostFoundItem.swift), [ItemStatus.swift](ReturnIT/Models/ItemStatus.swift), [User.swift](ReturnIT/Models/User.swift)
+* **[Controllers/](ReturnIT/Controllers)**: [LoginViewController.swift](ReturnIT/Controllers/LoginViewController.swift), [RegisterViewController.swift](ReturnIT/Controllers/RegisterViewController.swift), [HomeFeedViewController.swift](ReturnIT/Controllers/HomeFeedViewController.swift), [PostItemViewController.swift](ReturnIT/Controllers/PostItemViewController.swift), [ItemDetailViewController.swift](ReturnIT/Controllers/ItemDetailViewController.swift), [MyPostsViewController.swift](ReturnIT/Controllers/MyPostsViewController.swift)
+* **[Views/](ReturnIT/Views)**: [ItemCardCell.swift](ReturnIT/Views/ItemCardCell.swift)
+* **[Services/](ReturnIT/Services)**: [DataLoader.swift](ReturnIT/Services/DataLoader.swift)
+* **[Resources/](ReturnIT/Resources)**: [items.json](ReturnIT/Resources/items.json)
+* **[Storyboards/](ReturnIT/Storyboards)**: [Main.storyboard](ReturnIT/Storyboards/Main.storyboard), [LaunchScreen.storyboard](ReturnIT/Storyboards/LaunchScreen.storyboard)
 
 ---
 
 ## 💾 Local Sandbox Data Engine
 
 ReturnIT uses a file-based data engine:
-1. At boot, [DataLoader.swift](file:///d:/GitHub/ReturnIT/ReturnIT/Services/DataLoader.swift) checks the app's sandboxed documents directory (`.items.json`).
-2. If it is the first launch, it reads the bundled [items.json](file:///d:/GitHub/ReturnIT/ReturnIT/Resources/items.json) file, caches it in memory, and writes it to the documents folder.
+1. At boot, [DataLoader.swift](ReturnIT/Services/DataLoader.swift) checks the app's sandboxed documents directory (`.items.json`).
+2. If it is the first launch, it reads the bundled [items.json](ReturnIT/Resources/items.json) file, caches it in memory, and writes it to the documents folder.
 3. Newly reported items are saved instantly to documents using `JSONEncoder` and persist across application restarts.
 
 ---
@@ -151,14 +151,14 @@ This project is an **academic showcase** and does not include:
 ---
 
 ## 📖 Detailed Project Documentation
-Additional project design details are stored in the **[docs/](file:///d:/GitHub/ReturnIT/docs)** folder:
-* **[Product Requirement Document (PRD)](file:///d:/GitHub/ReturnIT/docs/PRD.md)** — User stories, feature matrix, and constraints.
-* **[Tech Stack Choices](file:///d:/GitHub/ReturnIT/docs/TECH_STACK.md)** — Architectural design and framework details.
-* **[System Architecture Diagram & Flow](file:///d:/GitHub/ReturnIT/docs/ARCHITECTURE.md)** — UML data and navigation flows.
-* **[Known Limitations](file:///d:/GitHub/ReturnIT/docs/KNOWN_LIMITATIONS.md)** — Constraints and design trade-offs.
-* **[Future Roadmap](file:///d:/GitHub/ReturnIT/docs/ROADMAP.md)** — Phase roadmap for production and SwiftUI refactoring.
+Additional project design details are stored in the **[docs/](docs)** folder:
+* **[Product Requirement Document (PRD)](docs/PRD.md)** — User stories, feature matrix, and constraints.
+* **[Tech Stack Choices](docs/TECH_STACK.md)** — Architectural design and framework details.
+* **[System Architecture Diagram & Flow](docs/ARCHITECTURE.md)** — UML data and navigation flows.
+* **[Known Limitations](docs/KNOWN_LIMITATIONS.md)** — Constraints and design trade-offs.
+* **[Future Roadmap](docs/ROADMAP.md)** — Phase roadmap for production and SwiftUI refactoring.
 
 ---
 
 ## 📄 License
-This project is licensed under the **[MIT License](file:///d:/GitHub/ReturnIT/LICENSE)**.
+This project is licensed under the **[MIT License](LICENSE)**.
