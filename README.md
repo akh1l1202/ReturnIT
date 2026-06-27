@@ -35,13 +35,19 @@ ReturnIT addresses these issues by offering a dedicated lost-and-found registry.
 ### 1. Interface Builder & Storyboard Layout
 The interface is designed using **UINavigationController** and Storyboards. It conforms to Apple's Human Interface Guidelines (HIG) for iOS 17+, using Auto Layout constraints to adapt seamlessly to multiple screen formats (iPhone SE, Pro, Max).
 
-![Main Storyboard Layouts](docs/screenshots/storyboard_layouts.png)
+<img width="1431" height="760" alt="image" src="https://github.com/user-attachments/assets/d2d8bc53-ad90-40d2-92b1-d2b91de15a6f"/>
+<br>
+<br>
+<br>
+<img width="1432" height="703" alt="image" src="https://github.com/user-attachments/assets/9a151e4c-b247-45b1-99c3-94364a53674e" />
+
 
 ### 2. User Authentication & Core Home Feed
 * **Authentication**: Login and Registration screens styled with custom text fields, SF Symbol icons (envelope, lock), and secure entry toggles.
 * **Home Feed**: Displays lost and found records inside a custom `UITableView` using card-styled cells. A Floating Action Button (FAB) at the bottom-right allows users to quickly report new items.
 
-![Authentication & Core Feed](docs/screenshots/login_register_feed.png)
+<img width="486" height="832" alt="Screenshot 2026-06-27 161957-Photoroom" src="https://github.com/user-attachments/assets/1856748b-8f03-414e-a0e3-40ee48098865" />
+
 
 ### 3. Modal Item Submission Form
 * **Post Item Form**: Presented as a modal bottom sheet with top-rounded corners.
@@ -49,13 +55,15 @@ The interface is designed using **UINavigationController** and Storyboards. It c
 * **Date & Time Picker**: The date field opens an action sheet with an integrated `UIDatePicker` in wheels style.
 * **Photo Attachment**: Implemented using `UIImagePickerController` to let users select a photo from their photo library.
 
-![Post Item Form & Flow](docs/screenshots/post_item_form.png)
+<img width="937" height="823" alt="Screenshot 2026-06-27 183012-Photoroom" src="https://github.com/user-attachments/assets/619b9416-0440-4eb3-b178-1671b7eb646c" />
+
 
 ### 4. Feed Filtering & Detail View
 * **Status Toggles**: A segment control filter swaps table data in real-time (All / Lost / Found).
 * **Item Details**: Displays the item image, title, description, location details, post date, and contact links. Clicking the poster's email opens the system mail composer.
 
-![Filters & Details](docs/screenshots/filters_and_details.png)
+<img width="902" height="778" alt="Screenshot 2026-06-27 183309-Photoroom" src="https://github.com/user-attachments/assets/8478a339-ef8d-4889-9067-bfa42b770409" />
+
 
 ### 5. Double-Resolution Claim Verification
 To prevent false claims or single-sided closures, ReturnIT implements a **double-verification resolution system**:
@@ -63,7 +71,8 @@ To prevent false claims or single-sided closures, ReturnIT implements a **double
 2. When the other user (e.g., finder) logs in and clicks **Mark as Resolved**, the status updates to `Waiting for Poster...`.
 3. Once both parties have confirmed the resolution, the badge transitions to a green **RESOLVED** state, locking the item on disk.
 
-![Double-Verification Item Resolution](docs/screenshots/item_resolution.png)
+<img width="481" height="856" alt="Screenshot 2026-06-27 183526-Photoroom" src="https://github.com/user-attachments/assets/fc8c3f87-99ea-4985-8f20-889674fdc847" />
+
 
 ---
 
