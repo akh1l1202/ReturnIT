@@ -55,14 +55,14 @@ The interface is designed using **UINavigationController** and Storyboards. It c
 * **Date & Time Picker**: The date field opens an action sheet with an integrated `UIDatePicker` in wheels style.
 * **Photo Attachment**: Implemented using `UIImagePickerController` to let users select a photo from their photo library.
 
-<img width="937" height="823" alt="Screenshot 2026-06-27 183012-Photoroom" src="https://github.com/user-attachments/assets/619b9416-0440-4eb3-b178-1671b7eb646c" />
+<img width="515" height="453" alt="Screenshot 2026-06-27 183012-Photoroom" src="https://github.com/user-attachments/assets/619b9416-0440-4eb3-b178-1671b7eb646c" />
 
 
 ### 4. Feed Filtering & Detail View
 * **Status Toggles**: A segment control filter swaps table data in real-time (All / Lost / Found).
 * **Item Details**: Displays the item image, title, description, location details, post date, and contact links. Clicking the poster's email opens the system mail composer.
 
-<img width="902" height="778" alt="Screenshot 2026-06-27 183309-Photoroom" src="https://github.com/user-attachments/assets/8478a339-ef8d-4889-9067-bfa42b770409" />
+<img width="496" height="428" alt="Screenshot 2026-06-27 183309-Photoroom" src="https://github.com/user-attachments/assets/8478a339-ef8d-4889-9067-bfa42b770409" />
 
 
 ### 5. Double-Resolution Claim Verification
