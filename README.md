@@ -1,6 +1,11 @@
-# ReturnIT – Campus Lost & Found App
+# 📦 ReturnIT – Campus Lost & Found App
 
-ReturnIT is a high-fidelity native iOS application built using **Swift 5.9** and **UIKit**. It serves as a centralized, structured lost-and-found registry designed specifically for university campuses, replacing disorganized notice boards, chat groups, and campus emails.
+> A native iOS lost-and-found registry designed specifically for university campuses. Built with **Swift**, **UIKit**, and **Storyboards** to automate item recovery and resolution locally.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://developer.apple.com/swift/)
+[![UIKit](https://img.shields.io/badge/UIKit-Storyboard-blue.svg)](https://developer.apple.com/documentation/uikit)
+[![Platform](https://img.shields.io/badge/Platform-iOS--15.6+-lightgrey.svg)](https://apple.com)
 
 ---
 
