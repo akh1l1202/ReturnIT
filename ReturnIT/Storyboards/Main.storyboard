@@ -323,7 +323,7 @@
         <!--Home View Controller-->
         <scene sceneID="yPt-cO-OFn">
             <objects>
-                <viewController storyboardIdentifier="HomeViewController" id="Eit-ra-1Kd" customClass="HomeViewController" customModule="ReturnIT" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeFeedViewController" id="Eit-ra-1Kd" customClass="HomeFeedViewController" customModule="ReturnIT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iLh-Xk-H6f">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -362,21 +362,12 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemCell" textLabel="kMl-rp-XjR" style="IBUITableViewCellStyleDefault" id="Zso-DA-AIX">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ItemCardCell" customClass="ItemCardCell" customModule="ReturnIT" customModuleProvider="target" id="Zso-DA-AIX">
                                         <rect key="frame" x="0.0" y="50" width="352" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Zso-DA-AIX" id="7Fo-th-iQw">
                                             <rect key="frame" x="0.0" y="0.0" width="352" height="51"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kMl-rp-XjR">
-                                                    <rect key="frame" x="20" y="0.0" width="312" height="51"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -424,6 +415,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="fabButton" destination="rL3-T1-J2V" id="conn-fab-button"/>
                         <outlet property="segmentedControl" destination="fIB-SH-4dP" id="cna-sw-Xtn"/>
                         <outlet property="tableView" destination="uRb-90-PNy" id="Alh-4b-NUE"/>
                     </connections>
@@ -567,6 +559,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" id="jNB-8J-ymp"/>
+                    <connections>
+                        <outlet property="categoryField" destination="txtCategory" id="conn-txt-category"/>
+                        <outlet property="dateField" destination="txtDate" id="conn-txt-date"/>
+                        <outlet property="descTextView" destination="txtDescription" id="conn-txt-desc"/>
+                        <outlet property="locationField" destination="txtLocation" id="conn-txt-location"/>
+                        <outlet property="nameField" destination="txtItemName" id="conn-txt-name"/>
+                        <outlet property="segControl" destination="segLostFound" id="conn-seg-lostfound"/>
+                        <outlet property="uploadView" destination="viewUpload" id="conn-view-upload"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l80-Az-Mra" sceneMemberID="firstResponder"/>
             </objects>
@@ -692,7 +693,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="nav-item-detail"/>
                     <connections>
+                        <outlet property="contactButton" destination="btn-detail-email-link" id="conn-btn-detail-email-link"/>
                         <outlet property="descriptionLabel" destination="lbl-detail-desc" id="conn-lbl-detail-desc"/>
+                        <outlet property="mainImageView" destination="img-detail-main" id="conn-img-detail-main"/>
+                        <outlet property="resolvedButton" destination="btn-detail-resolve-action" id="conn-btn-detail-resolve-action"/>
                         <outlet property="statusLabel" destination="lbl-detail-status-badge" id="conn-lbl-detail-status-badge"/>
                         <outlet property="titleLabel" destination="lbl-detail-title" id="conn-lbl-detail-title"/>
                     </connections>

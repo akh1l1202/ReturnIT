@@ -39,7 +39,7 @@ class RegisterViewController: UIViewController {
             return
         }
 
-        if JSONDataManager.shared.users.contains(where: { $0.email == email }) {
+        if DataLoader.shared.users.contains(where: { $0.email == email }) {
             showAlert("A user with this email already exists.")
             return
         }
@@ -47,8 +47,8 @@ class RegisterViewController: UIViewController {
         let passwordHash = hashPassword(password)
         let newUser = User(fullName: name, email: email, passwordHash: passwordHash)
 
-        JSONDataManager.shared.addUser(newUser)
-        JSONDataManager.shared.currentUser = newUser
+        DataLoader.shared.addUser(newUser)
+        DataLoader.shared.currentUser = newUser
 
         proceedToHome()
     }
@@ -56,7 +56,7 @@ class RegisterViewController: UIViewController {
     private func proceedToHome() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let homeVC = storyboard.instantiateViewController(
-            withIdentifier: "HomeViewController"
+            withIdentifier: "HomeFeedViewController"
         )
         navigationController?.pushViewController(homeVC, animated: true)
     }

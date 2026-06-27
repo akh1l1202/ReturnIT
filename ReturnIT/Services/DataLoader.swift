@@ -1,8 +1,8 @@
 import Foundation
 import UIKit
 
-class JSONDataManager {
-    static let shared = JSONDataManager()
+class DataLoader {
+    static let shared = DataLoader()
     
     private let fileManager = FileManager.default
     private let documentsURL: URL
@@ -10,7 +10,7 @@ class JSONDataManager {
     private let itemsFileName = ".items.json"
     private let usersFileName = ".users.json"
     
-    var items: [LostItem] = []
+    var items: [LostFoundItem] = []
     var users: [User] = []
     var currentUser: User?
     
@@ -32,19 +32,38 @@ class JSONDataManager {
         if fileManager.fileExists(atPath: fileURL.path) {
             do {
                 let data = try Data(contentsOf: fileURL)
-                items = try JSONDecoder().decode([LostItem].self, from: data)
+                items = try JSONDecoder().decode([LostFoundItem].self, from: data)
             } catch {
-                print("Error decoding items: \(error)")
+                print("Error decoding items from documents: \(error)")
+                loadItemsFromBundle()
             }
         } else {
-            // Pre-initialize dummy data
-            items = [
-                LostItem(title: "Blue Water Bottle", category: "Accessories", status: "Lost", location: "Library 2nd Floor", date: "Today", description: "A blue Hydro Flask with a campus sticker.", imageFileName: "item_1.jpg", posterEmail: "student@university.edu"),
-                LostItem(title: "AirPods Pro", category: "Electronics", status: "Found", location: "Cafeteria", date: "Yesterday", description: "White AirPods Pro case, no name engraved.", imageFileName: "item_2.jpg", posterEmail: "student@university.edu"),
-                LostItem(title: "Calculus Textbook", category: "Books", status: "Lost", location: "Math Building Rm 101", date: "Oct 26", description: "Stewart Calculus 8th Edition, slightly torn cover.", imageFileName: "item_3.jpg", posterEmail: "admin@university.edu")
-            ]
-            saveItems()
+            loadItemsFromBundle()
         }
+    }
+    
+    private func loadItemsFromBundle() {
+        if let bundleURL = Bundle.main.url(forResource: "items", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: bundleURL)
+                items = try JSONDecoder().decode([LostFoundItem].self, from: data)
+                saveItems()
+            } catch {
+                print("Error decoding items from bundle: \(error)")
+                initializeFallbackData()
+            }
+        } else {
+            initializeFallbackData()
+        }
+    }
+    
+    private func initializeFallbackData() {
+        items = [
+            LostFoundItem(name: "Blue Water Bottle", category: "Accessories", status: .lost, location: "Library 2nd Floor", date: "Today", description: "A blue Hydro Flask with a campus sticker.", imageFileName: "item_1.jpg", posterEmail: "student@university.edu"),
+            LostFoundItem(name: "AirPods Pro", category: "Electronics", status: .found, location: "Cafeteria", date: "Yesterday", description: "White AirPods Pro case, no name engraved.", imageFileName: "item_2.jpg", posterEmail: "student@university.edu"),
+            LostFoundItem(name: "Calculus Textbook", category: "Books", status: .lost, location: "Math Building Rm 101", date: "Oct 26", description: "Stewart Calculus 8th Edition, slightly torn cover.", imageFileName: "item_3.jpg", posterEmail: "admin@university.edu")
+        ]
+        saveItems()
     }
     
     func saveItems() {
@@ -57,7 +76,7 @@ class JSONDataManager {
         }
     }
     
-    func addItem(_ item: LostItem) {
+    func addItem(_ item: LostFoundItem) {
         items.insert(item, at: 0) // Newest first
         saveItems()
     }

@@ -4,19 +4,24 @@ class ItemDetailViewController: UIViewController {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     
-    var item: LostItem?
-    var mainImageView: UIImageView?
-    var resolvedButton: UIButton?
+    @IBOutlet weak var mainImageView: UIImageView!
+    @IBOutlet weak var resolvedButton: UIButton!
+    @IBOutlet weak var contactButton: UIButton!
+    
+    // Programmatic labels (missing from storyboard layout)
+    var locationLabel: UILabel?
+    var dateLabel: UILabel?
+    var posterLabel: UILabel?
+    
+    var item: LostFoundItem?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Item Details"
         
-        findImageView()
+        setupActions()
         populateData()
     }
     
@@ -25,42 +30,41 @@ class ItemDetailViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-    private func findImageView() {
-        for subview in view.subviews {
-            if let imgView = subview as? UIImageView {
-                mainImageView = imgView
-            } else {
-                for nested in subview.subviews {
-                    if let imgView = nested as? UIImageView {
-                        mainImageView = imgView
-                    }
-                }
-            }
-        }
+    private func setupActions() {
+        resolvedButton?.addTarget(self, action: #selector(markResolvedTapped), for: .touchUpInside)
+        contactButton?.addTarget(self, action: #selector(contactButtonTapped), for: .touchUpInside)
     }
     
-    private func findContactButton(in parentView: UIView) -> UIButton? {
-        for subview in parentView.subviews {
-            if let button = subview as? UIButton, button.title(for: .normal)?.contains("@") == true || button.configuration?.title?.contains("@") == true {
-                return button
-            }
-            if let found = findContactButton(in: subview) {
-                return found
+    @objc private func contactButtonTapped() {
+        guard let item = item, let email = item.posterEmail else { return }
+        
+        if let url = URL(string: "mailto:\(email)") {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                let alert = UIAlertController(title: "Contact Poster", message: "Send email to \(email)", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Copy Email", style: .default, handler: { _ in
+                    UIPasteboard.general.string = email
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                present(alert, animated: true)
             }
         }
-        return nil
     }
     
     private func populateData() {
         guard let item = item else { return }
         
-        titleLabel?.text = item.title
-        statusLabel?.text = item.status.uppercased()
-        locationLabel?.text = item.location
-        dateLabel?.text = item.date
+        titleLabel?.text = item.name
+        statusLabel?.text = item.status.title.uppercased()
+        statusLabel?.backgroundColor = item.status.badgeColor
+        statusLabel?.textColor = .white
+        statusLabel?.layer.cornerRadius = 14
+        statusLabel?.clipsToBounds = true
+        
         descriptionLabel?.text = item.description
         
-        if let imageName = item.imageFileName, let image = JSONDataManager.shared.loadImage(named: imageName) {
+        if let imageName = item.imageFileName, let image = DataLoader.shared.loadImage(named: imageName) {
             mainImageView?.image = image
             mainImageView?.contentMode = .scaleAspectFill
         } else {
@@ -69,23 +73,19 @@ class ItemDetailViewController: UIViewController {
             mainImageView?.contentMode = .center
         }
         
-        for subview in view.subviews {
-            if let button = subview as? UIButton, button.titleLabel?.text?.contains("Resolved") == true {
-                resolvedButton = button
-                button.addTarget(self, action: #selector(markResolvedTapped), for: .touchUpInside)
+        if let emailString = item.posterEmail {
+            contactButton?.setTitle(emailString, for: .normal)
+            if contactButton?.configuration != nil {
+                contactButton?.configuration?.title = emailString
             }
         }
         
-        if let contactButton = findContactButton(in: view) {
-            let emailString = item.posterEmail ?? "Contact"
-            contactButton.setTitle(emailString, for: .normal)
-            if contactButton.configuration != nil {
-                contactButton.configuration?.title = emailString
-            }
-        }
-        
-        // Add location, date, and poster email display programmatically since they are missing from storyboard
+        // Add location, date, and poster email display programmatically
         if let descLabel = descriptionLabel {
+            locationLabel?.removeFromSuperview()
+            dateLabel?.removeFromSuperview()
+            posterLabel?.removeFromSuperview()
+            
             let locLabel = UILabel()
             locLabel.text = "📍 Location: \(item.location)"
             locLabel.font = .systemFont(ofSize: 15, weight: .semibold)
@@ -102,22 +102,26 @@ class ItemDetailViewController: UIViewController {
             view.addSubview(dLabel)
             self.dateLabel = dLabel
             
-            let posterLabel = UILabel()
-            posterLabel.text = "👤 Posted by: \(item.posterEmail ?? "Unknown")"
-            posterLabel.font = .systemFont(ofSize: 15, weight: .medium)
-            posterLabel.textColor = .gray
-            posterLabel.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(posterLabel)
+            let pLabel = UILabel()
+            pLabel.text = "👤 Posted by: \(item.posterEmail ?? "Unknown")"
+            pLabel.font = .systemFont(ofSize: 15, weight: .medium)
+            pLabel.textColor = .gray
+            pLabel.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(pLabel)
+            self.posterLabel = pLabel
             
             NSLayoutConstraint.activate([
                 locLabel.topAnchor.constraint(equalTo: descLabel.bottomAnchor, constant: 20),
                 locLabel.leadingAnchor.constraint(equalTo: descLabel.leadingAnchor),
+                locLabel.trailingAnchor.constraint(equalTo: descLabel.trailingAnchor),
                 
                 dLabel.topAnchor.constraint(equalTo: locLabel.bottomAnchor, constant: 8),
                 dLabel.leadingAnchor.constraint(equalTo: descLabel.leadingAnchor),
+                dLabel.trailingAnchor.constraint(equalTo: descLabel.trailingAnchor),
                 
-                posterLabel.topAnchor.constraint(equalTo: dLabel.bottomAnchor, constant: 8),
-                posterLabel.leadingAnchor.constraint(equalTo: descLabel.leadingAnchor)
+                pLabel.topAnchor.constraint(equalTo: dLabel.bottomAnchor, constant: 8),
+                pLabel.leadingAnchor.constraint(equalTo: descLabel.leadingAnchor),
+                pLabel.trailingAnchor.constraint(equalTo: descLabel.trailingAnchor)
             ])
         }
         
@@ -127,9 +131,11 @@ class ItemDetailViewController: UIViewController {
     private func updateResolvedUI() {
         guard let item = item else { return }
         
-        if item.status.lowercased() == "resolved" {
+        if item.status == .resolved {
             resolvedButton?.setTitle("Item Fully Resolved", for: .normal)
             resolvedButton?.backgroundColor = .systemGreen
+            resolvedButton?.tintColor = .white
+            resolvedButton?.layer.borderWidth = 0
             resolvedButton?.isEnabled = false
             statusLabel?.text = "RESOLVED"
             statusLabel?.backgroundColor = .systemGreen
@@ -142,23 +148,31 @@ class ItemDetailViewController: UIViewController {
         if item.finderResolvedEmail != nil { resolvedCount += 1 }
         
         resolvedButton?.setTitle("Mark as Resolved (\(resolvedCount)/2)", for: .normal)
+        resolvedButton?.backgroundColor = .clear
+        resolvedButton?.layer.borderWidth = 1.5
+        resolvedButton?.layer.borderColor = UIColor.systemGreen.cgColor
+        resolvedButton?.setTitleColor(.systemGreen, for: .normal)
+        resolvedButton?.isEnabled = true
         
-        // If current user already marked it, disable it to prevent spam clicks
-        if let currentUser = JSONDataManager.shared.currentUser {
+        if let currentUser = DataLoader.shared.currentUser {
             if currentUser.email == item.posterEmail && item.posterResolved {
                 resolvedButton?.isEnabled = false
                 resolvedButton?.setTitle("Waiting for Finder...", for: .normal)
-                resolvedButton?.backgroundColor = .systemGray
+                resolvedButton?.backgroundColor = .systemGray5
+                resolvedButton?.setTitleColor(.gray, for: .normal)
+                resolvedButton?.layer.borderColor = UIColor.gray.cgColor
             } else if currentUser.email != item.posterEmail && item.finderResolvedEmail != nil {
                 resolvedButton?.isEnabled = false
                 resolvedButton?.setTitle("Waiting for Poster...", for: .normal)
-                resolvedButton?.backgroundColor = .systemGray
+                resolvedButton?.backgroundColor = .systemGray5
+                resolvedButton?.setTitleColor(.gray, for: .normal)
+                resolvedButton?.layer.borderColor = UIColor.gray.cgColor
             }
         }
     }
     
     @objc private func markResolvedTapped(_ sender: UIButton) {
-        guard var item = self.item, let currentUser = JSONDataManager.shared.currentUser else {
+        guard var item = self.item, let currentUser = DataLoader.shared.currentUser else {
             let alert = UIAlertController(title: "Error", message: "You must be logged in to mark this.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
@@ -172,14 +186,14 @@ class ItemDetailViewController: UIViewController {
         }
         
         if item.posterResolved && item.finderResolvedEmail != nil {
-            item.status = "Resolved"
+            item.status = .resolved
         }
         
         self.item = item
         
-        if let index = JSONDataManager.shared.items.firstIndex(where: { $0.id == item.id }) {
-            JSONDataManager.shared.items[index] = item
-            JSONDataManager.shared.saveItems()
+        if let index = DataLoader.shared.items.firstIndex(where: { $0.id == item.id }) {
+            DataLoader.shared.items[index] = item
+            DataLoader.shared.saveItems()
         }
         
         updateResolvedUI()

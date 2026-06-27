@@ -1,18 +1,30 @@
 import UIKit
 
-class HomeViewController: UIViewController {
+class HomeFeedViewController: UIViewController {
 
     // MARK: - Storyboard Outlets
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var fabButton: UIButton!
 
     // MARK: - Data
-    var lostItems: [LostItem] = []
+    var lostItems: [LostFoundItem] = []
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "ReturnIT"
+        
+        // Setup table view
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
+        
+        // Register custom cell
+        tableView.register(ItemCardCell.self, forCellReuseIdentifier: "ItemCardCell")
+        
+        setupFAB()
         loadMockData()
     }
 
@@ -29,20 +41,31 @@ class HomeViewController: UIViewController {
     }
 
     @IBAction func logout(_ sender: UIBarButtonItem) {
-        JSONDataManager.shared.currentUser = nil
+        DataLoader.shared.currentUser = nil
         navigationController?.popToRootViewController(animated: true)
+    }
+
+    // MARK: - Setup
+    private func setupFAB() {
+        guard let fab = fabButton else { return }
+        fab.layer.cornerRadius = 28
+        fab.layer.shadowColor = UIColor.black.cgColor
+        fab.layer.shadowOpacity = 0.2
+        fab.layer.shadowOffset = CGSize(width: 0, height: 4)
+        fab.layer.shadowRadius = 6
+        fab.backgroundColor = UIColor(red: 0.15, green: 0.39, blue: 0.92, alpha: 1.0)
     }
 
     // MARK: - Data loading
     private func loadMockData() {
-        JSONDataManager.shared.loadItems()
-        let allItems = JSONDataManager.shared.items
+        DataLoader.shared.loadItems()
+        let allItems = DataLoader.shared.items
 
         switch segmentedControl.selectedSegmentIndex {
         case 1:
-            lostItems = allItems.filter { $0.status.lowercased() == "lost" }
+            lostItems = allItems.filter { $0.status == .lost }
         case 2:
-            lostItems = allItems.filter { $0.status.lowercased() == "found" }
+            lostItems = allItems.filter { $0.status == .found }
         default:
             lostItems = allItems
         }
@@ -52,10 +75,10 @@ class HomeViewController: UIViewController {
 }
 
 // MARK: - TableView
-extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
+extension HomeFeedViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        lostItems.count
+        return lostItems.count
     }
 
     func tableView(
@@ -64,29 +87,12 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     ) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: "ItemCell",
+            withIdentifier: "ItemCardCell",
             for: indexPath
-        )
+        ) as! ItemCardCell
 
         let item = lostItems[indexPath.row]
-
-        var content = cell.defaultContentConfiguration()
-        content.text = item.title
-        content.secondaryText = "\(item.status.uppercased()) • \(item.location)"
-
-        if let imageName = item.imageFileName,
-           let image = JSONDataManager.shared.loadImage(named: imageName) {
-
-            content.image = image
-            content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
-            content.imageProperties.cornerRadius = 8
-        } else {
-            content.image = UIImage(systemName: "photo")
-            content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
-            content.imageProperties.tintColor = .lightGray
-        }
-
-        cell.contentConfiguration = content
+        cell.configure(with: item)
         return cell
     }
 

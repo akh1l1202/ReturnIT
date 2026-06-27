@@ -45,10 +45,10 @@ class LoginViewController: UIViewController {
 
         let passwordHash = hashPassword(password)
 
-        if let user = JSONDataManager.shared.users.first(
+        if let user = DataLoader.shared.users.first(
             where: { $0.email == email && $0.passwordHash == passwordHash }
         ) {
-            JSONDataManager.shared.currentUser = user
+            DataLoader.shared.currentUser = user
             proceedToHome()
         } else {
             showAlert("Invalid email or password.")
@@ -58,7 +58,7 @@ class LoginViewController: UIViewController {
     private func proceedToHome() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let homeVC = storyboard.instantiateViewController(
-            withIdentifier: "HomeViewController"
+            withIdentifier: "HomeFeedViewController"
         )
         navigationController?.pushViewController(homeVC, animated: true)
     }
